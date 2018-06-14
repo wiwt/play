@@ -6,6 +6,9 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.ImageFormat;
+import android.graphics.Rect;
+import android.graphics.YuvImage;
 import android.os.Environment;
 import android.os.Handler;
 import android.os.Message;
@@ -133,11 +136,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
                                 socket1 = socket.accept();
                                 DataInputStream dis = new DataInputStream(socket1.getInputStream());
-                                File file = new File(getExternalCacheDir(), "tupian.jpg");
+                                File file = new File(getExternalCacheDir(), "tupian.yuv");
                                 FileOutputStream fos = new FileOutputStream(file);
                                 byte[] bytes = new byte[1024];
                                 int length = 0;
                                 while ((length = dis.read(bytes, 0, bytes.length)) != -1) {
+                                    YuvImage image = new YuvImage(bytes, ImageFormat.NV21, 400,
+                                            400, null);
+                                    image.compressToJpeg(new Rect(0, 0,400, 400),
+                                    80, fos);
                                     fos.write(bytes, 0, length);
                                 }
                                 BitmapFactory.Options option = new BitmapFactory.Options();
