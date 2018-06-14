@@ -133,10 +133,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         while (true) {
 
                             try {
-
+                                int i = 0;
                                 socket1 = socket.accept();
                                 DataInputStream dis = new DataInputStream(socket1.getInputStream());
-                                File file = new File(getExternalCacheDir(), "tupian.yuv");
+                                File file = new File(getExternalCacheDir(), "tupian"+i+".jpg");
                                 FileOutputStream fos = new FileOutputStream(file);
                                 byte[] bytes = new byte[1024];
                                 int length = 0;
@@ -148,7 +148,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                                     fos.write(bytes, 0, length);
                                 }
                                 BitmapFactory.Options option = new BitmapFactory.Options();
-                                Bitmap bm = BitmapFactory.decodeFile(getExternalCacheDir() + "/tupian.jpg", option);//文件流
+                                Bitmap bm = BitmapFactory.decodeFile(getExternalCacheDir() +"tupian"+i+".jpg", option);//文件流
                                 ByteArrayOutputStream baos = new ByteArrayOutputStream();
                                 bm.compress(Bitmap.CompressFormat.JPEG, 100, baos);//质量压缩方法，这里100表示不压缩，把压缩后的数据存放到baos中
                                 int scaleFactor1 = 100;
@@ -160,6 +160,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                                 ByteArrayInputStream bais = new ByteArrayInputStream(baos.toByteArray());//把压缩后的数据baos存放到ByteArrayInputStream中
                                 bitmap = BitmapFactory.decodeStream(bais, null, null);//把ByteArrayInputStream数据生成图片
                                 handler.sendEmptyMessage(1);
+                                i++;
                             } catch (IOException e) {
                                 e.printStackTrace();
                             }}

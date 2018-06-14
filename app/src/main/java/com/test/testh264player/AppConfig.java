@@ -5,6 +5,6 @@ package com.test.testh264player;
  */
 
 public class AppConfig {
-    public static String IPAddress = "192.168.1.113";// 局域网
+    public static String IPAddress = "172.20.10.2";// 局域网
     public static int Port = 10086;
 }
